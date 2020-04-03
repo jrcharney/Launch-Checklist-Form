@@ -29,9 +29,9 @@ window.addEventListener("load", () => {
       });
    });
 
-   document.querySelector("launchForm > form").addEventListener("submit", (event) =>{
+   document.querySelector("form").addEventListener("submit", (event) =>{
       event.preventDefault();
-      
+
       // Inputs
       let pilotName   = document.querySelector("input[name=pilotName]");
       let copilotName = document.querySelector("input[name=copilotName]");
