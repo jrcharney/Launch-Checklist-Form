@@ -5,8 +5,8 @@ window.addEventListener("load", () => {
    let cargoReady = false;
    let fieldCheck;
 
-   // TODO: Why does "this" get added to "fetch"?
-   this.fetch("https://handlers.education.launchcode.org/static/planets.json")
+   // TODO: Why does "this" get added to "fetch"? (OK to get rid of "this")
+   fetch("https://handlers.education.launchcode.org/static/planets.json")
    .then((res) => {
       res.json().then((json) => {
          let index = Math.floor(Math.random() * json.length);
@@ -71,11 +71,16 @@ window.addEventListener("load", () => {
          fieldCheck = false;
       }
       // TODO: Add placeholders?
-      if(typeof String(pilotName.value)   !== "string"){
+      // pilotname and copiolot can't be numbers
+      // You know what could fix this? REGEXP!
+      // You know what, let's just do this instead.
+      if(typeof String(pilotName.value) !== "string" && !isNaN(pilotName.value)){
+         // regexp
          window.alert("Please enter a name in the Pilot field");
          fieldCheck = false;
       }
-      if(typeof String(copilotName.value) !== "string"){
+      if(typeof String(copilotName.value) !== "string" && !isNaN(copilotName.value)){
+         // regexp
          window.alert("Please enter a name in the Co-Pilot field");
          fieldCheck = false;
       }
@@ -87,12 +92,18 @@ window.addEventListener("load", () => {
          window.alert("Please enter a number in the Cargo Mass field");
          fieldCheck = false;
       }
+      if(!fieldCheck){
+         return;  // get out of this event
+      }
+
       if(Number(fuelLevel.value) < 10000){
          // We are no go for launch. Somebody forgot gas!
          faultyItems.style.setProperty("visibility","visible");
          faultyItems.innerHTML = `There is not enough fuel for the mission! We have ${fuelLevel.value}L. We need at least 10,000L!`;
          launchStatus.style.setProperty("color","red");
          launchStatus.innerText = "Shuttle not ready for launch!";
+         fuelReady = false;
+         return;  // get out of this event
       }
       else{
          fuelReady = true;
@@ -103,6 +114,8 @@ window.addEventListener("load", () => {
          faultyItems.innerHTML = `There is too much mass for the shuttle to take off! We have ${cargoMass.value}kg. We can not carry more than 10,000kg!`;
          launchStatus.style.setProperty("color","red");
          launchStatus.innerText = "Shuttle not ready for launch!";
+         cargoReady = false;
+         return;  // get out of this event
       }
       else{
          cargoReady = true;
@@ -116,6 +129,8 @@ window.addEventListener("load", () => {
       }
 
    });
+   // status box should not update unless all the fields are filled
+   // and meet the requirements
 
    /*
    // TODO: We will need to add some focus features to reset some stuff
