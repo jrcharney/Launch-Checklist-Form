@@ -74,12 +74,14 @@ window.addEventListener("load", () => {
       // pilotname and copiolot can't be numbers
       // You know what could fix this? REGEXP!
       // You know what, let's just do this instead.
-      if(typeof String(pilotName.value) !== "string" && !isNaN(pilotName.value)){
+      // typeof String(pilotName.value) !== "string" && !isNaN(pilotName.value)
+      if(!isNaN(pilotName.value)){
          // regexp
          window.alert("Please enter a name in the Pilot field");
          fieldCheck = false;
       }
-      if(typeof String(copilotName.value) !== "string" && !isNaN(copilotName.value)){
+      // typeof String(copilotName.value) !== "string" && !isNaN(copilotName.value)
+      if(!isNaN(copilotName.value)){
          // regexp
          window.alert("Please enter a name in the Co-Pilot field");
          fieldCheck = false;
